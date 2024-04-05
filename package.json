@@ -11,7 +11,12 @@
     "@sei-js/core": "^3.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.18.3"
+    "express": "^4.18.3",
+    "@cosmjs/cosmwasm-stargate": "0.31.3",
+    "@cosmjs/crypto": "^0.31.3",
+    "@cosmjs/launchpad": "^0.27.1",
+    "@cosmjs/proto-signing": "^0.31.3",
+    "@cosmjs/stargate": "^0.31.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
