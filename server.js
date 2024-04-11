@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3001;
 const rpcEndpoint = "https://sei-rpc.brocha.in/";
 const cosmWasmClient = getCosmWasmClient(rpcEndpoint);
 let roundInfo = {};
+let isnewRound = false;
 
 app.use(cors());
 
@@ -61,9 +62,13 @@ const fetchUpdate = async () => {
       roundInfo?.config.round_time +
         roundInfo?.round_info?.round_start_time -
         roundInfo?.current_time <=
-      0
+        0 &&
+      isnewRound
     ) {
       handleTransation();
+      isnewRound = false;
+    } else {
+      isnewRound = true;
     }
   } catch (e) {
     console.log(e);
