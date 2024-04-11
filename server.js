@@ -13,22 +13,22 @@ let roundInfo = {};
 app.use(cors());
 
 const handleTransation = async () => {
-  const gasPrice = GasPrice.fromString("0.1usei");
-  const execute_fee = calculateFee(200000, gasPrice);
-  const sender_wallet = await DirectSecp256k1HdWallet.fromMnemonic(
-    process.env.MNEMONIC,
-    { prefix: "sei" }
-  );
-  const sender_client = await getSigningCosmWasmClient(
-    rpcEndpoint,
-    sender_wallet
-  );
-
-  let execute_msg = {
-    decide_winner: {},
-  };
-
   try {
+    const gasPrice = GasPrice.fromString("0.1usei");
+    const execute_fee = calculateFee(200000, gasPrice);
+    const sender_wallet = await DirectSecp256k1HdWallet.fromMnemonic(
+      process.env.MNEMONIC,
+      { prefix: "sei" }
+    );
+    const sender_client = await getSigningCosmWasmClient(
+      rpcEndpoint,
+      sender_wallet
+    );
+
+    let execute_msg = {
+      decide_winner: {},
+    };
+
     let tx = await sender_client.execute(
       process.env.NEXT_PUBLIC_ADMIN_ADDRESS,
       process.env.NEXT_PUBLIC_SWIPER_ADDRESS,
@@ -42,12 +42,16 @@ const handleTransation = async () => {
 };
 
 const fetchRoundInfo = async () => {
-  const response = await (
-    await cosmWasmClient
-  ).queryContractSmart(process.env.NEXT_PUBLIC_SWIPER_ADDRESS || "", {
-    get_state: {},
-  });
-  return response;
+  try {
+    const response = await (
+      await cosmWasmClient
+    ).queryContractSmart(process.env.NEXT_PUBLIC_SWIPER_ADDRESS || "", {
+      get_state: {},
+    });
+    return response;
+  } catch (e) {
+    console.log("error", e);
+  }
 };
 
 const fetchUpdate = async () => {
